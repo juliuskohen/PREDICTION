@@ -17,7 +17,7 @@ export function APIPredictor() {
   const [input, setInput] = useState("")
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // Function to get prediction from server
+  //function to get prediction from server
   const getPrediction = async (calls: APICall[]) => {
     try {
       const response = await fetch("/api/predict", {
@@ -38,15 +38,15 @@ export function APIPredictor() {
     }
   }
 
-  // Capture API calls
+  //capturing api calls.
   useEffect(() => {
     const handleButtonClick = async (e: MouseEvent) => {
       const target = e.target as HTMLElement
       if (target.tagName === "BUTTON" && target.dataset.apiEndpoint) {
         const endpoint = target.dataset.apiEndpoint
-        const method = "GET" // Simplified for demo
+        const method = "GET" //simplified for demo
 
-        // Capture the API call
+        //capture
         const newCall: APICall = {
           endpoint,
           method,
@@ -58,7 +58,7 @@ export function APIPredictor() {
         setApiCalls(updatedCalls)
         captureAPICall(newCall)
 
-        // Generate prediction after a new call is made
+        //generetes prediction after a new call is made.
         const nextPrediction = await getPrediction(updatedCalls)
         setPrediction(nextPrediction)
       }
@@ -68,7 +68,7 @@ export function APIPredictor() {
     return () => document.removeEventListener("click", handleButtonClick)
   }, [apiCalls])
 
-  // Handle Tab key for accepting prediction
+  //this is the tab key! 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Tab" && prediction && document.activeElement === inputRef.current) {
@@ -82,12 +82,12 @@ export function APIPredictor() {
   }, [prediction])
 
   const executeAPICall = async (endpoint: string) => {
-    // In a real implementation, this would actually call the API
+    //this would be calling the actual api by the json endponts when cell is integrated into a SaaS!
     console.log(`Executing API call: ${endpoint}`)
 
     const newCall: APICall = {
       endpoint,
-      method: "GET", // Simplified for demo
+      method: "GET", 
       timestamp: new Date().toISOString(),
       parameters: {},
     }
@@ -97,7 +97,7 @@ export function APIPredictor() {
     captureAPICall(newCall)
     setPrediction(null)
 
-    // Generate a new prediction
+    //new prediction
     const nextPrediction = await getPrediction(updatedCalls)
     setPrediction(nextPrediction)
   }
@@ -106,19 +106,19 @@ export function APIPredictor() {
     e.preventDefault()
     if (!input.trim()) return
 
-    // Add user message
+    //adding user message. 
     const userMessage = { role: "user", content: input }
     setMessages((prev) => [...prev, userMessage])
 
-    // Open chat if not already open
+    //opening chat if its not open. 
     if (!showChat) {
       setShowChat(true)
     }
 
-    // Clear input
+  
     setInput("")
 
-    // Get AI response
+    //getting the ai response here. 
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
