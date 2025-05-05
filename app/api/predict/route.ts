@@ -6,17 +6,17 @@ export async function POST(req: Request) {
   try {
     const { apiCalls } = await req.json()
 
-    // If there are no API calls, we can't make a prediction
+    //no API calls, then no prediction!
     if (!apiCalls || apiCalls.length === 0) {
       return Response.json({ prediction: null })
     }
 
-    // Format the API calls for the LLM
+    //formatting the calls for LLM
     const formattedCalls = apiCalls
       .map((call: APICall) => `${call.method} ${call.endpoint} at ${new Date(call.timestamp).toLocaleTimeString()}`)
       .join("\n")
 
-    // Use OpenAI to predict the next API call
+  
     const { text } = await generateText({
       model: openai("gpt-4o"),
       prompt: `
@@ -31,10 +31,10 @@ export async function POST(req: Request) {
       maxTokens: 50,
     })
 
-    // Clean up the response to get just the endpoint
+    //cleaning up the response. 
     const predictedEndpoint = text.trim().replace(/^["']|["']$/g, "")
 
-    // Validate that the prediction looks like an API endpoint
+    //validation of api looking like an end point. 
     if (predictedEndpoint.startsWith("/api/")) {
       return Response.json({ prediction: predictedEndpoint })
     }
