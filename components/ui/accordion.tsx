@@ -1,5 +1,7 @@
 "use client"
 
+//this UI (some of the files) taken from the open source UI kit (ShadCN) (its a library built on top of Radix UI)
+
 import * as React from "react"
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import { ChevronDown } from "lucide-react"
