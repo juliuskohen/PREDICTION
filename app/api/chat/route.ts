@@ -6,7 +6,7 @@ export async function POST(req: Request) {
   try {
     const { messages, apiCalls } = await req.json()
 
-    // Format the API calls for context
+    //formatting the api calls for context
     const apiCallsContext =
       apiCalls.length > 0
         ? apiCalls
@@ -16,7 +16,7 @@ export async function POST(req: Request) {
             .join("\n")
         : "No API calls recorded yet."
 
-    // Generate response using OpenAI
+    //generating response using openai
     const { text } = await generateText({
       model: openai("gpt-4o"),
       prompt: `
